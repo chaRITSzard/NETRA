@@ -1,0 +1,10 @@
+.DS_Store
+data/raw/*
+data/processed/*
+*.pyc
+__pycache__/
+.venv/
+.Rhistory
+.RData
+.Rproj.user/
+Manifest.toml

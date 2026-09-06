@@ -1,0 +1,99 @@
+# NETRA — Phase 1 → Phase 2 Feature Configuration
+# Generated from R statistical analysis.
+# Dataset: NSL-KDD
+# Target: five-class attack classification
+
+version: "1.0"
+
+dataset:
+  name: "NSL-KDD"
+  train_file: "data/raw/KDDTrain+.txt"
+  test_file: "data/raw/KDDTest+.txt"
+
+target:
+  source_column: "label"
+  output_column: "attack_class"
+  classes:
+    - "normal"
+    - "DoS"
+    - "Probe"
+    - "R2L"
+    - "U2R"
+
+features:
+  drop:
+    - "num_outbound_cmds"
+    - "num_compromised"
+    - "srv_serror_rate"
+    - "dst_host_serror_rate"
+    - "dst_host_srv_serror_rate"
+    - "srv_rerror_rate"
+    - "dst_host_rerror_rate"
+    - "dst_host_srv_rerror_rate"
+    - "dst_host_srv_count"
+
+  keep:
+    - "protocol_type"
+    - "flag"
+    - "wrong_fragment"
+    - "urgent"
+    - "hot"
+    - "land"
+    - "num_failed_logins"
+    - "logged_in"
+    - "root_shell"
+    - "su_attempted"
+    - "num_root"
+    - "num_file_creations"
+    - "num_shells"
+    - "num_access_files"
+    - "is_host_login"
+    - "is_guest_login"
+    - "count"
+    - "srv_count"
+    - "serror_rate"
+    - "rerror_rate"
+    - "same_srv_rate"
+    - "diff_srv_rate"
+    - "srv_diff_host_rate"
+    - "dst_host_count"
+    - "dst_host_same_srv_rate"
+    - "dst_host_diff_srv_rate"
+    - "dst_host_same_src_port_rate"
+    - "dst_host_srv_diff_host_rate"
+
+  transform:
+    log1p:
+      - "duration"
+      - "src_bytes"
+      - "dst_bytes"
+
+    frequency_encode:
+      - "service"
+
+preprocessing:
+  categorical:
+    low_cardinality:
+      encoding: "one_hot"
+      features:
+        - "protocol_type"
+        - "flag"
+
+    high_cardinality:
+      encoding: "frequency"
+      features:
+        - "service"
+
+  numeric:
+    log1p_features:
+      - "duration"
+      - "src_bytes"
+      - "dst_bytes"
+
+imbalance:
+  strategy: "deferred"
+  note: "Class imbalance handling will be evaluated during model development."
+
+evaluation:
+  final_test_file: "data/raw/KDDTest+.txt"
+  final_test_usage: "evaluation_only"

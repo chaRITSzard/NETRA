@@ -1,0 +1,17 @@
+numpy==2.4.6
+pandas==3.0.5
+scipy
+scikit-learn==1.9.0
+xgboost==3.4.1
+lightgbm==4.7.0
+optuna==4.8.0
+shap==0.52.0
+matplotlib
+seaborn
+pyyaml
+joblib
+fastapi==0.141.1
+uvicorn
+pydantic
+requests
+pytest
