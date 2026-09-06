@@ -1,0 +1,13 @@
+{
+  "best_macro_f1": 0.9545813845098632,
+  "best_params": {
+    "n_estimators": 335,
+    "learning_rate": 0.09793105181553138,
+    "subsample": 0.916784347634772,
+    "colsample_bytree": 0.9361665076233798,
+    "weight_multiplier": 1.014543094392028
+  },
+  "n_trials": 61,
+  "cv_folds": 5,
+  "random_state": 42
+}
