@@ -1,0 +1,57 @@
+======================================================================
+NETRA — FINAL KDDTest+ EVALUATION
+======================================================================
+
+Evaluation protocol
+----------------------------------------------------------------------
+Training dataset: KDDTrain+
+Final test dataset: KDDTest+
+KDDTest+ usage: final evaluation only
+Preprocessor: fitted on KDDTrain+ only
+Model: Optuna-tuned weighted XGBoost
+Random state: 42
+
+Overall metrics
+----------------------------------------------------------------------
+Accuracy:        0.794846
+Macro Precision: 0.813406
+Macro Recall:    0.582648
+Macro-F1:        0.621465
+Weighted-F1:     0.767775
+Binary ROC-AUC:  0.973011
+Training time:   6.623s
+Inference time:  0.139s
+
+Per-class metrics
+----------------------------------------------------------------------
+              precision    recall  f1-score   support
+
+      normal   0.693965  0.972094  0.809814      9711
+         DoS   0.967000  0.856300  0.908289      7460
+       Probe   0.874518  0.656340  0.749882      2421
+         R2L   0.989879  0.168504  0.287986      2902
+         U2R   0.541667  0.260000  0.351351        50
+
+    accuracy                       0.794846     22544
+   macro avg   0.813406  0.582648  0.621465     22544
+weighted avg   0.841458  0.794846  0.767775     22544
+
+Confusion matrix
+----------------------------------------------------------------------
+Rows = actual; columns = predicted
+
+        normal   DoS  Probe  R2L  U2R
+normal    9440    65    203    2    1
+DoS       1054  6388     18    0    0
+Probe      679   153   1589    0    0
+R2L       2396     0      7  489   10
+U2R         34     0      0    3   13
+
+Optuna parameters
+----------------------------------------------------------------------
+n_estimators: 215
+max_depth: 10
+learning_rate: 0.07625952012379998
+subsample: 0.9631804864850304
+colsample_bytree: 0.9649627446231271
+weight_multiplier: 1.5868169724223125

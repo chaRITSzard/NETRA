@@ -1,0 +1,53 @@
+======================================================================
+NETRA — Tuned XGBoost Evaluation
+======================================================================
+
+Evaluation protocol
+----------------------------------------------------------------------
+Dataset: KDDTrain+
+Method: Stratified 5-fold cross-validation
+KDDTest+: NOT USED
+Random state: 42
+
+Overall metrics
+----------------------------------------------------------------------
+Accuracy:        0.999087
+Macro Precision: 0.939649
+Macro Recall:    0.952999
+Macro-F1:        0.945869
+Weighted-F1:     0.999092
+Runtime:         77.695 seconds
+
+Per-class metrics
+----------------------------------------------------------------------
+              precision    recall  f1-score   support
+
+      normal   0.999080  0.999317  0.999198     67343
+         DoS   0.999673  0.999804  0.999739     45927
+       Probe   0.998712  0.997512  0.998111     11656
+         R2L   0.993884  0.979899  0.986842       995
+         U2R   0.706897  0.788462  0.745455        52
+
+    accuracy                       0.999087    125973
+   macro avg   0.939649  0.952999  0.945869    125973
+weighted avg   0.999100  0.999087  0.999092    125973
+
+Confusion matrix
+----------------------------------------------------------------------
+Rows = actual classes; columns = predicted classes
+
+        normal    DoS  Probe  R2L  U2R
+normal   67297     14     13    6   13
+DoS          8  45918      1    0    0
+Probe       28      1  11627    0    0
+R2L         16      0      0  975    4
+U2R         10      0      1    0   41
+
+Best Optuna parameters
+----------------------------------------------------------------------
+n_estimators: 215
+max_depth: 10
+learning_rate: 0.07625952012379998
+subsample: 0.9631804864850304
+colsample_bytree: 0.9649627446231271
+weight_multiplier: 1.5868169724223125

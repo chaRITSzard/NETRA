@@ -1,0 +1,8 @@
+{
+  "model": "weighted_xgboost",
+  "random_state": 42,
+  "shap_sample_size": 5000,
+  "processed_feature_count": 44,
+  "weight_multiplier": 1.5868169724223125,
+  "kddtest_used": false
+}

@@ -184,7 +184,7 @@ def objective(trial, X, y):
     )
 
     max_depth = trial.suggest_int(
-        "n_estimators",
+        "max_depth",
         3,
         15,
     )

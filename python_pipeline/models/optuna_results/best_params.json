@@ -1,13 +1,14 @@
 {
-  "best_macro_f1": 0.9545813845098632,
+  "best_macro_f1": 0.9554009701518623,
   "best_params": {
-    "n_estimators": 335,
-    "learning_rate": 0.09793105181553138,
-    "subsample": 0.916784347634772,
-    "colsample_bytree": 0.9361665076233798,
-    "weight_multiplier": 1.014543094392028
+    "n_estimators": 215,
+    "max_depth": 10,
+    "learning_rate": 0.07625952012379998,
+    "subsample": 0.9631804864850304,
+    "colsample_bytree": 0.9649627446231271,
+    "weight_multiplier": 1.5868169724223125
   },
-  "n_trials": 61,
+  "n_trials": 121,
   "cv_folds": 5,
   "random_state": 42
 }

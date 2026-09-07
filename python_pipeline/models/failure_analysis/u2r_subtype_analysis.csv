@@ -1,0 +1,6 @@
+attack_class,subtype,train_count,test_count,train_percentage,test_percentage
+U2R,buffer_overflow,30,20,57.692307692307686,40.0
+U2R,loadmodule,9,2,17.307692307692307,4.0
+U2R,perl,3,2,5.769230769230769,4.0
+U2R,rootkit,10,13,19.230769230769234,26.0
+U2R,xterm,0,13,0.0,26.0

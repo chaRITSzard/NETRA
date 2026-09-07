@@ -1,0 +1,122 @@
+NETRA — SHAP Explainability Analysis
+SHAP analysis of the frozen weighted XGBoost candidate
+
+DATASET
+KDDTrain+ rows: 125973
+SHAP explanation sample: 5000
+KDDTest+ used: NO
+
+MODEL
+n_estimators: 215
+max_depth: 10
+learning_rate: 0.07625952012379998
+subsample: 0.9631804864850304
+colsample_bytree: 0.9649627446231271
+weight_multiplier: 1.5868169724223125
+
+MODEL / SHAP TIMING
+Training time: 6.1315s
+SHAP calculation time: 2.1661s
+
+TOP 20 GLOBAL FEATURES
+----------------------------------------
+ 1. src_bytes — 1.19856954
+ 2. service — 1.04272664
+ 3. count — 0.80132717
+ 4. dst_bytes — 0.74535394
+ 5. flag_S0 — 0.45289755
+ 6. dst_host_diff_srv_rate — 0.34795961
+ 7. dst_host_same_srv_rate — 0.32563937
+ 8. dst_host_count — 0.28052858
+ 9. dst_host_same_src_port_rate — 0.23177646
+10. logged_in — 0.22291335
+11. duration — 0.22276433
+12. protocol_type_udp — 0.18290962
+13. serror_rate — 0.14280450
+14. protocol_type_tcp — 0.13861102
+15. protocol_type_icmp — 0.13550581
+16. srv_count — 0.13163812
+17. hot — 0.11891723
+18. dst_host_srv_diff_host_rate — 0.11226100
+19. diff_srv_rate — 0.11036703
+20. rerror_rate — 0.09623613
+
+TOP 10 FEATURES BY CLASS
+----------------------------------------
+
+normal
+ 1. src_bytes — 2.01318383
+ 2. service — 1.81784272
+ 3. dst_host_same_srv_rate — 0.41168603
+ 4. count — 0.38511935
+ 5. dst_bytes — 0.33590192
+ 6. dst_host_same_src_port_rate — 0.29301685
+ 7. hot — 0.26736796
+ 8. dst_host_diff_srv_rate — 0.17918791
+ 9. srv_count — 0.17843738
+10. dst_host_count — 0.15130071
+
+DoS
+ 1. count — 2.08074379
+ 2. flag_S0 — 1.37418175
+ 3. dst_bytes — 0.93451834
+ 4. src_bytes — 0.38247979
+ 5. serror_rate — 0.37842488
+ 6. srv_count — 0.31401327
+ 7. diff_srv_rate — 0.26890713
+ 8. logged_in — 0.24742463
+ 9. protocol_type_icmp — 0.24370696
+10. dst_host_diff_srv_rate — 0.22450845
+
+Probe
+ 1. src_bytes — 1.77463984
+ 2. dst_host_diff_srv_rate — 1.02632141
+ 3. flag_S0 — 0.87633622
+ 4. dst_bytes — 0.53828973
+ 5. dst_host_same_srv_rate — 0.48581949
+ 6. dst_host_same_src_port_rate — 0.43052411
+ 7. protocol_type_icmp — 0.36666653
+ 8. logged_in — 0.35650316
+ 9. protocol_type_tcp — 0.35219803
+10. service — 0.33454943
+
+R2L
+ 1. count — 1.41003668
+ 2. src_bytes — 1.40945017
+ 3. service — 1.16554666
+ 4. logged_in — 0.34602365
+ 5. dst_host_same_src_port_rate — 0.27742788
+ 6. dst_host_same_srv_rate — 0.26047593
+ 7. hot — 0.22533056
+ 8. protocol_type_tcp — 0.22206609
+ 9. duration — 0.21106000
+10. dst_bytes — 0.20658736
+
+U2R
+ 1. service — 1.76968336
+ 2. dst_bytes — 1.71147740
+ 3. dst_host_count — 0.87253010
+ 4. duration — 0.69566667
+ 5. protocol_type_udp — 0.46263400
+ 6. src_bytes — 0.41309234
+ 7. dst_host_same_srv_rate — 0.35004133
+ 8. dst_host_diff_srv_rate — 0.25400096
+ 9. num_file_creations — 0.22749634
+10. dst_host_srv_diff_host_rate — 0.16572951
+
+PREDICTION SAMPLE
+----------------------------------------
+Predicted normal: 2673
+Predicted DoS: 1823
+Predicted Probe: 463
+Predicted R2L: 39
+Predicted U2R: 2
+
+INTERPRETATION
+----------------------------------------
+SHAP magnitude represents the contribution magnitude of a feature toward the model's output.
+Global importance is descriptive and does not establish causal relationships.
+Top-3 prediction explanations identify the three largest absolute SHAP contributions for the predicted class.
+KDDTest+ was not used during this analysis.
+
+END OF SHAP ANALYSIS

@@ -1,0 +1,217 @@
+======================================================================
+NETRA — FAILURE ANALYSIS
+======================================================================
+
+1. DATASET OVERVIEW
+----------------------------------------------------------------------
+KDDTrain+ rows: 125973
+KDDTest+ rows:  22544
+Train columns:   44
+Test columns:    44
+
+Five-class distribution:
+
+attack_class  train_count  test_count train_percentage test_percentage
+      normal        67343        9711           53.46%          43.08%
+         DoS        45927        7460           36.46%          33.09%
+       Probe        11656        2421            9.25%          10.74%
+         R2L          995        2902            0.79%          12.87%
+         U2R           52          50            0.04%           0.22%
+
+2. ATTACK SUBTYPE DISTRIBUTION
+----------------------------------------------------------------------
+
+   attack_label attack_class  train_count  test_count  train_present  test_present
+        apache2          DoS            0         737          False          True
+           back          DoS          956         359           True          True
+           land          DoS           18           7           True          True
+       mailbomb          DoS            0         293          False          True
+        neptune          DoS        41214        4657           True          True
+            pod          DoS          201          41           True          True
+   processtable          DoS            0         685          False          True
+          smurf          DoS         2646         665           True          True
+       teardrop          DoS          892          12           True          True
+       udpstorm          DoS            0           2          False          True
+           worm          DoS            0           2          False          True
+        ipsweep        Probe         3599         141           True          True
+          mscan        Probe            0         996          False          True
+           nmap        Probe         1493          73           True          True
+      portsweep        Probe         2931         157           True          True
+          saint        Probe            0         319          False          True
+          satan        Probe         3633         735           True          True
+      ftp_write          R2L            8           3           True          True
+   guess_passwd          R2L           53        1231           True          True
+     httptunnel          R2L            0         133          False          True
+           imap          R2L           11           1           True          True
+       multihop          R2L            7          18           True          True
+          named          R2L            0          17          False          True
+            phf          R2L            4           2           True          True
+             ps          R2L            0          15          False          True
+       sendmail          R2L            0          14          False          True
+  snmpgetattack          R2L            0         178          False          True
+      snmpguess          R2L            0         331          False          True
+            spy          R2L            2           0           True         False
+      sqlattack          R2L            0           2          False          True
+    warezclient          R2L          890           0           True         False
+    warezmaster          R2L           20         944           True          True
+          xlock          R2L            0           9          False          True
+         xsnoop          R2L            0           4          False          True
+buffer_overflow          U2R           30          20           True          True
+     loadmodule          U2R            9           2           True          True
+           perl          U2R            3           2           True          True
+        rootkit          U2R           10          13           True          True
+          xterm          U2R            0          13          False          True
+         normal       normal        67343        9711           True          True
+
+3. R2L ANALYSIS
+----------------------------------------------------------------------
+
+attack_class       subtype  train_count  test_count train_percentage test_percentage
+         R2L     ftp_write            8           3            0.80%           0.10%
+         R2L  guess_passwd           53        1231            5.33%          42.42%
+         R2L    httptunnel            0         133            0.00%           4.58%
+         R2L          imap           11           1            1.11%           0.03%
+         R2L      multihop            7          18            0.70%           0.62%
+         R2L         named            0          17            0.00%           0.59%
+         R2L           phf            4           2            0.40%           0.07%
+         R2L            ps            0          15            0.00%           0.52%
+         R2L      sendmail            0          14            0.00%           0.48%
+         R2L snmpgetattack            0         178            0.00%           6.13%
+         R2L     snmpguess            0         331            0.00%          11.41%
+         R2L           spy            2           0            0.20%           0.00%
+         R2L     sqlattack            0           2            0.00%           0.07%
+         R2L   warezclient          890           0           89.45%           0.00%
+         R2L   warezmaster           20         944            2.01%          32.53%
+         R2L         xlock            0           9            0.00%           0.31%
+         R2L        xsnoop            0           4            0.00%           0.14%
+
+4. U2R ANALYSIS
+----------------------------------------------------------------------
+
+attack_class         subtype  train_count  test_count train_percentage test_percentage
+         U2R buffer_overflow           30          20           57.69%          40.00%
+         U2R      loadmodule            9           2           17.31%           4.00%
+         U2R            perl            3           2            5.77%           4.00%
+         U2R         rootkit           10          13           19.23%          26.00%
+         U2R           xterm            0          13            0.00%          26.00%
+
+5. TRAIN-ONLY / TEST-ONLY ATTACK SUBTYPES
+----------------------------------------------------------------------
+
+Present in KDDTrain+ but absent from KDDTest+:
+  - spy
+  - warezclient
+
+Present in KDDTest+ but absent from KDDTrain+:
+  - apache2
+  - httptunnel
+  - mailbomb
+  - mscan
+  - named
+  - processtable
+  - ps
+  - saint
+  - sendmail
+  - snmpgetattack
+  - snmpguess
+  - sqlattack
+  - udpstorm
+  - worm
+  - xlock
+  - xsnoop
+  - xterm
+
+6. CATEGORICAL DISTRIBUTION SHIFT
+----------------------------------------------------------------------
+
+Focus classes: R2L and U2R
+Features: protocol_type, service, flag
+
+attack_class       feature category  train_count  test_count  train_percentage  test_percentage  percentage_point_shift
+         R2L       service ftp_data          604         458         60.703518        15.782219              -44.921298
+         R2L       service    pop_3            0         750          0.000000        25.844245               25.844245
+         R2L protocol_type      tcp          995        2384        100.000000        82.150241              -17.849759
+         R2L protocol_type      udp            0         514          0.000000        17.711923               17.711923
+         R2L       service  private            0         498          0.000000        17.160579               17.160579
+         R2L       service      ftp          312         606         31.356784        20.882150              -10.474634
+         U2R       service      ftp            3           8          5.769231        16.000000               10.230769
+         R2L       service   telnet           57         407          5.728643        14.024810                8.296167
+         U2R protocol_type      tcp           49          50         94.230769       100.000000                5.769231
+         U2R       service    other            3           0          5.769231         0.000000               -5.769231
+         U2R protocol_type      udp            3           0          5.769231         0.000000               -5.769231
+         R2L       service    other            5         148          0.502513         5.099931                4.597419
+         R2L          flag      REJ            0         112          0.000000         3.859407                3.859407
+         R2L          flag     RSTO           46          28          4.623116         0.964852               -3.658264
+         U2R       service   telnet           34          31         65.384615        62.000000               -3.384615
+         U2R          flag       SF           51          50         98.076923       100.000000                1.923077
+         U2R          flag     RSTO            1           0          1.923077         0.000000               -1.923077
+         U2R       service ftp_data           12          11         23.076923        22.000000               -1.076923
+         R2L       service    imap4           11           1          1.105528         0.034459               -1.071069
+         R2L          flag       SF          935        2749         93.969849        94.727774                0.757925
+         R2L          flag       SH            4           0          0.402010         0.000000               -0.402010
+         R2L          flag     RSTR            5           4          0.502513         0.137836               -0.364677
+         R2L       service      X11            0          10          0.000000         0.344590                0.344590
+         R2L       service     http            4           2          0.402010         0.068918               -0.333092
+         R2L       service   domain            0           6          0.000000         0.206754                0.206754
+         R2L       service     smtp            0           6          0.000000         0.206754                0.206754
+         R2L       service    login            2           1          0.201005         0.034459               -0.166546
+         R2L          flag       S3            3           4          0.301508         0.137836               -0.163672
+         R2L protocol_type     icmp            0           4          0.000000         0.137836                0.137836
+         R2L       service     auth            0           4          0.000000         0.137836                0.137836
+         R2L       service    urp_i            0           4          0.000000         0.137836                0.137836
+         R2L          flag       S2            1           0          0.100503         0.000000               -0.100503
+         R2L          flag       S1            1           5          0.100503         0.172295                0.071792
+         R2L       service      IRC            0           1          0.000000         0.034459                0.034459
+
+7. NUMERICAL DISTRIBUTION SHIFT
+----------------------------------------------------------------------
+
+Focus classes: R2L and U2R
+
+attack_class                feature    train_mean    test_mean  train_median  test_median    train_std     test_std  train_min  test_min  train_max   test_max
+         R2L               duration    633.417085    98.757064           0.0         4.00 2.232536e+03 1.083277e+03       0.00      0.00   15168.00    57715.0
+         R2L              src_bytes 307727.300503 54976.822536         334.0        48.00 1.214966e+06 1.307472e+06       0.00      0.00 5135678.00 62825648.0
+         R2L              dst_bytes  81822.026131   754.160924           0.0        93.00 6.298782e+05 1.216364e+04       0.00      0.00 5155468.00   511712.0
+         R2L                  count      1.297487     1.623019           1.0         1.00 4.809696e-01 7.121818e+00       1.00      1.00       4.00      374.0
+         R2L              srv_count      2.457286     1.584769           1.0         1.00 1.275181e+01 7.118552e+00       1.00      1.00     163.00      374.0
+         R2L            serror_rate      0.011899     0.002929           0.0         0.00 1.003360e-01 5.160340e-02       0.00      0.00       1.00        1.0
+         R2L            rerror_rate      0.051759     0.049331           0.0         0.00 2.199424e-01 2.100240e-01       0.00      0.00       1.00        1.0
+         R2L          same_srv_rate      0.996653     0.981175           1.0         1.00 4.009239e-02 9.795794e-02       0.50      0.12       1.00        1.0
+         R2L          diff_srv_rate      0.006704     0.032553           0.0         0.00 8.026733e-02 1.695408e-01       0.00      0.00       1.00        1.0
+         R2L         dst_host_count     89.037186   186.741558          10.0       255.00 1.118737e+02 1.005421e+02       1.00      1.00     255.00      255.0
+         R2L dst_host_same_srv_rate      0.727377     0.675910           1.0         0.88 3.623224e-01 3.659878e-01       0.00      0.00       1.00        1.0
+         U2R               duration     80.942308   204.080000          46.0        60.00 1.205109e+02 4.397785e+02       0.00      0.00     708.00     2224.0
+         U2R              src_bytes    906.230769 12522.540000         273.0      1991.00 1.188260e+03 5.315736e+04       0.00      0.00    6274.00   283618.0
+         U2R              dst_bytes   5141.961538 13255.500000        2907.0      3272.50 1.008151e+04 3.266445e+04       0.00      0.00   70529.00   223095.0
+         U2R                  count      5.807692     1.060000           1.0         1.00 2.345462e+01 3.136357e-01       1.00      1.00     151.00        3.0
+         U2R              srv_count      1.269231     1.080000           1.0         1.00 6.298268e-01 3.404679e-01       1.00      1.00       3.00        3.0
+         U2R            serror_rate      0.038077     0.000000           0.0         0.00 1.922421e-01 0.000000e+00       0.00      0.00       0.99        0.0
+         U2R            rerror_rate      0.009808     0.000000           0.0         0.00 6.932420e-02 0.000000e+00       0.00      0.00       0.50        0.0
+         U2R          same_srv_rate      0.931538     1.000000           1.0         1.00 2.163819e-01 0.000000e+00       0.01      1.00       1.00        1.0
+         U2R          diff_srv_rate      0.063654     0.000000           0.0         0.00 2.213243e-01 0.000000e+00       0.00      0.00       1.00        0.0
+         U2R         dst_host_count     47.769231   135.520000           2.5       148.50 9.619213e+01 1.141433e+02       1.00      1.00     255.00      255.0
+         U2R dst_host_same_srv_rate      0.781154     0.337400           1.0         0.21 3.995814e-01 3.313535e-01       0.00      0.00       1.00        1.0
+
+8. KEY OBSERVATIONS
+----------------------------------------------------------------------
+
+R2L samples — train: 995, test: 2902
+U2R samples — train: 52, test: 50
+
+Test-only attack subtypes were detected.
+Train-only attack subtypes were detected.
+
+Largest categorical shifts among R2L/U2R:
+  - R2L / service / ftp_data: -44.92 percentage points
+  - R2L / service / pop_3: 25.84 percentage points
+  - R2L / protocol_type / tcp: -17.85 percentage points
+  - R2L / protocol_type / udp: 17.71 percentage points
+  - R2L / service / private: 17.16 percentage points
+  - R2L / service / ftp: -10.47 percentage points
+  - U2R / service / ftp: 10.23 percentage points
+  - R2L / service / telnet: 8.30 percentage points
+  - U2R / protocol_type / tcp: 5.77 percentage points
+  - U2R / service / other: -5.77 percentage points
+
+Numerical distribution comparisons are provided in numeric_shift.csv.
+This report is diagnostic only and does not prescribe model or feature changes.

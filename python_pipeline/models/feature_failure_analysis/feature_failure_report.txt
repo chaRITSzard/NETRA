@@ -1,0 +1,202 @@
+NETRA — Feature-Level Failure Analysis
+=======================================================
+
+Purpose: diagnose whether the Phase 1 feature policy is associated with the observed R2L/U2R generalization failure.
+
+IMPORTANT: This is diagnostic analysis. KDDTest+ has already been used for final evaluation, so these observations must not be used as repeated test-driven optimization.
+
+DATASET
+-------------------------------------------------------
+KDDTrain+ rows: 125973
+KDDTest+ rows:  22544
+Original features: 41
+Processed feature count: 44
+
+CURRENT FEATURE POLICY
+-------------------------------------------------------
+DROP (9):
+  - num_outbound_cmds
+  - num_compromised
+  - srv_serror_rate
+  - dst_host_serror_rate
+  - dst_host_srv_serror_rate
+  - srv_rerror_rate
+  - dst_host_rerror_rate
+  - dst_host_srv_rerror_rate
+  - dst_host_srv_count
+
+KEEP (28):
+  - protocol_type
+  - flag
+  - wrong_fragment
+  - urgent
+  - hot
+  - land
+  - num_failed_logins
+  - logged_in
+  - root_shell
+  - su_attempted
+  - num_root
+  - num_file_creations
+  - num_shells
+  - num_access_files
+  - is_host_login
+  - is_guest_login
+  - count
+  - srv_count
+  - serror_rate
+  - rerror_rate
+  - same_srv_rate
+  - diff_srv_rate
+  - srv_diff_host_rate
+  - dst_host_count
+  - dst_host_same_srv_rate
+  - dst_host_diff_srv_rate
+  - dst_host_same_src_port_rate
+  - dst_host_srv_diff_host_rate
+
+RE-ENCODE / TRANSFORM (2):
+  - log1p: ['duration', 'src_bytes', 'dst_bytes']
+  - frequency_encode: ['service']
+
+FIVE-CLASS DISTRIBUTION
+-------------------------------------------------------
+normal: train=67343 (53.4583%), test=9711 (43.0758%), shift=-10.38 pp
+DoS: train=45927 (36.4578%), test=7460 (33.0908%), shift=-3.37 pp
+Probe: train=11656 (9.2528%), test=2421 (10.7390%), shift=+1.49 pp
+R2L: train=995 (0.7899%), test=2902 (12.8726%), shift=+12.08 pp
+U2R: train=52 (0.0413%), test=50 (0.2218%), shift=+0.18 pp
+
+DROPPED FEATURES — R2L / U2R
+-------------------------------------------------------
+
+[R2L]
+num_outbound_cmds: mean 0 -> 0; median 0 -> 0; range train [0, 0], test [0, 0]
+num_compromised: mean 0.0773869 -> 0.0165403; median 0 -> 0; range train [0, 38], test [0, 14]
+srv_serror_rate: mean 0.0110452 -> 0.00275672; median 0 -> 0; range train [0, 1], test [0, 1]
+dst_host_serror_rate: mean 0.0238492 -> 0.0135596; median 0 -> 0; range train [0, 1], test [0, 0.98]
+dst_host_srv_serror_rate: mean 0.0159598 -> 0.00237767; median 0 -> 0; range train [0, 1], test [0, 1]
+srv_rerror_rate: mean 0.0520402 -> 0.0502516; median 0 -> 0; range train [0, 1], test [0, 1]
+dst_host_rerror_rate: mean 0.0511156 -> 0.0565507; median 0 -> 0; range train [0, 0.96], test [0, 1]
+dst_host_srv_rerror_rate: mean 0.0473668 -> 0.0488353; median 0 -> 0; range train [0, 0.96], test [0, 1]
+dst_host_srv_count: mean 42.4402 -> 121.444; median 35 -> 97; range train [1, 255], test [1, 255]
+
+[U2R]
+num_outbound_cmds: mean 0 -> 0; median 0 -> 0; range train [0, 0], test [0, 0]
+num_compromised: mean 1.21154 -> 10.04; median 0 -> 1; range train [0, 6], test [0, 165]
+srv_serror_rate: mean 0 -> 0; median 0 -> 0; range train [0, 0], test [0, 0]
+dst_host_serror_rate: mean 0 -> 0.0778; median 0 -> 0; range train [0, 0], test [0, 1]
+dst_host_srv_serror_rate: mean 0.00480769 -> 0.0546; median 0 -> 0; range train [0, 0.25], test [0, 0.99]
+srv_rerror_rate: mean 0.0192308 -> 0; median 0 -> 0; range train [0, 1], test [0, 0]
+dst_host_rerror_rate: mean 0.0396154 -> 0.0996; median 0 -> 0; range train [0, 0.73], test [0, 0.98]
+dst_host_srv_rerror_rate: mean 0.0190385 -> 0.0794; median 0 -> 0; range train [0, 0.25], test [0, 0.98]
+dst_host_srv_count: mean 9.88462 -> 26.68; median 2.5 -> 7; range train [1, 84], test [1, 164]
+
+CATEGORICAL FEATURE SHIFTS
+-------------------------------------------------------
+
+[R2L]
+service=ftp_data: 60.70% -> 15.78% (-44.92 pp) [MAJOR_SHIFT]
+service=pop_3: 0.00% -> 25.84% (+25.84 pp) [TEST_ONLY]
+protocol_type=tcp: 100.00% -> 82.15% (-17.85 pp) [MAJOR_SHIFT]
+protocol_type=udp: 0.00% -> 17.71% (+17.71 pp) [TEST_ONLY]
+service=private: 0.00% -> 17.16% (+17.16 pp) [TEST_ONLY]
+service=ftp: 31.36% -> 20.88% (-10.47 pp) [MAJOR_SHIFT]
+flag=REJ: 0.00% -> 3.86% (+3.86 pp) [TEST_ONLY]
+flag=SH: 0.40% -> 0.00% (-0.40 pp) [TRAIN_ONLY]
+service=X11: 0.00% -> 0.34% (+0.34 pp) [TEST_ONLY]
+service=domain: 0.00% -> 0.21% (+0.21 pp) [TEST_ONLY]
+service=smtp: 0.00% -> 0.21% (+0.21 pp) [TEST_ONLY]
+protocol_type=icmp: 0.00% -> 0.14% (+0.14 pp) [TEST_ONLY]
+service=auth: 0.00% -> 0.14% (+0.14 pp) [TEST_ONLY]
+service=urp_i: 0.00% -> 0.14% (+0.14 pp) [TEST_ONLY]
+flag=S2: 0.10% -> 0.00% (-0.10 pp) [TRAIN_ONLY]
+service=IRC: 0.00% -> 0.03% (+0.03 pp) [TEST_ONLY]
+
+[U2R]
+service=ftp: 5.77% -> 16.00% (+10.23 pp) [MAJOR_SHIFT]
+protocol_type=udp: 5.77% -> 0.00% (-5.77 pp) [TRAIN_ONLY]
+service=other: 5.77% -> 0.00% (-5.77 pp) [TRAIN_ONLY]
+flag=RSTO: 1.92% -> 0.00% (-1.92 pp) [TRAIN_ONLY]
+
+SERVICE SHIFT
+-------------------------------------------------------
+
+[R2L]
+ftp_data: 60.70% -> 15.78% (-44.92 pp)
+pop_3: 0.00% -> 25.84% (+25.84 pp)
+private: 0.00% -> 17.16% (+17.16 pp)
+ftp: 31.36% -> 20.88% (-10.47 pp)
+telnet: 5.73% -> 14.02% (+8.30 pp)
+other: 0.50% -> 5.10% (+4.60 pp)
+imap4: 1.11% -> 0.03% (-1.07 pp)
+X11: 0.00% -> 0.34% (+0.34 pp)
+http: 0.40% -> 0.07% (-0.33 pp)
+domain: 0.00% -> 0.21% (+0.21 pp)
+smtp: 0.00% -> 0.21% (+0.21 pp)
+login: 0.20% -> 0.03% (-0.17 pp)
+auth: 0.00% -> 0.14% (+0.14 pp)
+urp_i: 0.00% -> 0.14% (+0.14 pp)
+IRC: 0.00% -> 0.03% (+0.03 pp)
+
+[U2R]
+ftp: 5.77% -> 16.00% (+10.23 pp)
+other: 5.77% -> 0.00% (-5.77 pp)
+telnet: 65.38% -> 62.00% (-3.38 pp)
+ftp_data: 23.08% -> 22.00% (-1.08 pp)
+
+LOG1P TRANSFORMATION ANALYSIS
+-------------------------------------------------------
+R2L / duration: raw mean 633.417 -> 98.7571; log1p mean 1.2204 -> 1.92342; raw median 0 -> 4; log1p median 0 -> 1.60944
+R2L / src_bytes: raw mean 307727 -> 54976.8; log1p mean 6.62985 -> 4.61105; raw median 334 -> 48; log1p median 5.81413 -> 3.89182
+R2L / dst_bytes: raw mean 81822 -> 754.161; log1p mean 3.11647 -> 3.69616; raw median 0 -> 93; log1p median 0 -> 4.54329
+U2R / duration: raw mean 80.9423 -> 204.08; log1p mean 3.05483 -> 3.66338; raw median 46 -> 60; log1p median 3.84992 -> 4.11034
+U2R / src_bytes: raw mean 906.231 -> 12522.5; log1p mean 4.80452 -> 6.75718; raw median 273 -> 1991; log1p median 5.61302 -> 7.59087
+U2R / dst_bytes: raw mean 5141.96 -> 13255.5; log1p mean 7.57634 -> 6.98347; raw median 2907 -> 3272.5; log1p median 7.97507 -> 8.09334
+
+NUMERICAL FEATURE SHIFTS
+-------------------------------------------------------
+
+[R2L]
+src_bytes: mean 307727 -> 54976.8; median 334 -> 48
+dst_bytes: mean 81822 -> 754.161; median 0 -> 93
+duration: mean 633.417 -> 98.7571; median 0 -> 4
+dst_host_count: mean 89.0372 -> 186.742; median 10 -> 255
+dst_host_srv_count: mean 42.4402 -> 121.444; median 35 -> 97
+hot: mean 8.33467 -> 0.376292; median 0 -> 0
+srv_count: mean 2.45729 -> 1.58477; median 1 -> 1
+logged_in: mean 0.913568 -> 0.447967; median 1 -> 0
+dst_host_same_src_port_rate: mean 0.596915 -> 0.142419; median 1 -> 0
+count: mean 1.29749 -> 1.62302; median 1 -> 1
+is_guest_login: mean 0.314573 -> 0.20572; median 0 -> 0
+num_failed_logins: mean 0.0562814 -> 0.16368; median 0 -> 0
+num_root: mean 0.111558 -> 0.0310131; median 0 -> 0
+num_compromised: mean 0.0773869 -> 0.0165403; median 0 -> 0
+dst_host_srv_diff_host_rate: mean 0.0857387 -> 0.0257512; median 0.07 -> 0
+
+[U2R]
+src_bytes: mean 906.231 -> 12522.5; median 273 -> 1991
+dst_bytes: mean 5141.96 -> 13255.5; median 2907 -> 3272.5
+duration: mean 80.9423 -> 204.08; median 46 -> 60
+dst_host_count: mean 47.7692 -> 135.52; median 2.5 -> 148.5
+dst_host_srv_count: mean 9.88462 -> 26.68; median 2.5 -> 7
+num_root: mean 0.788462 -> 10.3; median 0 -> 0
+num_compromised: mean 1.21154 -> 10.04; median 0 -> 1
+count: mean 5.80769 -> 1.06; median 1 -> 1
+hot: mean 1.40385 -> 2.32; median 1 -> 2
+dst_host_same_srv_rate: mean 0.781154 -> 0.3374; median 1 -> 0.21
+dst_host_same_src_port_rate: mean 0.568269 -> 0.19; median 0.5 -> 0.015
+num_file_creations: mean 0.788462 -> 1.16; median 0 -> 0
+urgent: mean 0.0192308 -> 0.26; median 0 -> 0
+srv_count: mean 1.26923 -> 1.08; median 1 -> 1
+num_shells: mean 0.134615 -> 0.32; median 0 -> 0
+
+KEY OBSERVATIONS
+-------------------------------------------------------
+1. This report describes distributional evidence only; it does not establish causal feature importance.
+2. A train/test distribution shift does not by itself prove that a feature should be changed or restored.
+3. Dropped features are reported separately so their potential diagnostic value can be reviewed.
+4. R2L and U2R are analyzed separately because their sample sizes and attack composition differ substantially.
+5. Any future feature-policy change must be evaluated using training-side development data rather than repeatedly optimizing against KDDTest+.
+
+END OF DIAGNOSTIC FEATURE FAILURE ANALYSIS

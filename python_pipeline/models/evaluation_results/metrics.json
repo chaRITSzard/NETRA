@@ -1,0 +1,21 @@
+{
+  "evaluation": "5-fold stratified cross-validation",
+  "dataset": "KDDTrain+",
+  "test_set_used": false,
+  "n_splits": 5,
+  "random_state": 42,
+  "accuracy": 0.9990871059671517,
+  "macro_f1": 0.945869007922569,
+  "weighted_f1": 0.9990923889170037,
+  "macro_precision": 0.9396489803080843,
+  "macro_recall": 0.9529988027038456,
+  "runtime_seconds": 77.69530416699126,
+  "best_parameters": {
+    "n_estimators": 215,
+    "max_depth": 10,
+    "learning_rate": 0.07625952012379998,
+    "subsample": 0.9631804864850304,
+    "colsample_bytree": 0.9649627446231271,
+    "weight_multiplier": 1.5868169724223125
+  }
+}
