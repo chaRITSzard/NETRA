@@ -1,0 +1,6 @@
+actual,normal,DoS,Probe,R2L,U2R
+normal,13434,3,2,0,0
+DoS,3,9280,1,0,0
+Probe,9,1,2265,0,0
+R2L,9,0,0,180,0
+U2R,4,0,0,0,4
