@@ -1,0 +1,16 @@
+{
+  "dataset": "NSL-KDD",
+  "source": "KDDTrain+",
+  "rows": 125973,
+  "processed_features": 44,
+  "classes": [
+    "normal",
+    "DoS",
+    "Probe",
+    "R2L",
+    "U2R"
+  ],
+  "preprocessing_config": "python_pipeline/config/feature_config.yaml",
+  "feature_order_file": "feature_names.json",
+  "test_set_used": false
+}
